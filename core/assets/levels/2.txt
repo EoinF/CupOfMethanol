@@ -1,0 +1,38 @@
+{
+    "shapes": [
+        {
+            "name": "shape1",
+            "instance": {
+                "class": "com.github.eoinf.ethanolshared.GameObjects.TerrainShape",
+                "textureName": "Bush",
+                "points": [
+                    150, 150,
+                    130, 130,
+                    210, 150,
+                    500, 100,
+                    150, 70,
+                    150, 150
+                ]
+            }
+        }
+    ],
+    "entities": [
+        {
+            "name": "abc",
+            "instance": {
+                "class": "com.github.eoinf.ethanolshared.GameObjects.Entity",
+                "textureName": "Mick",
+                "position": {
+                    "x": 300,
+                    "y": 100
+                },
+                "colour": {
+                    "r": 1,
+                    "g": 0.2,
+                    "b": 0.2,
+                    "a": 1
+                }
+            }
+        }
+    ]
+}

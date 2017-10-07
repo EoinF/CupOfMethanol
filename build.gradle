@@ -77,7 +77,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
-        compile "com.github.eoinf.ethanolshared:ethanolshared:1.7"
+        compile "com.github.eoinf.ethanolshared:ethanolshared:1.8"
         
     }
 }

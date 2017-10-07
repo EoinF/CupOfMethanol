@@ -1,0 +1,66 @@
+{
+    "shapes": [
+        {
+            "name": "shape1",
+            "instance": {
+                "class": "com.github.eoinf.ethanolshared.GameObjects.TerrainShape",
+                "textureName": "Bush",
+                "points": [
+                    50, 105,
+                    130, 180,
+                    210, 200,
+                    250, 150,
+                    150, 120,
+                    50, 105
+                ]
+            }
+        },
+        {
+            "name": "shape2",
+            "instance": {
+                "class": "com.github.eoinf.ethanolshared.GameObjects.TerrainShape",
+                "textureName": "Bush",
+                "points": [
+                    100, 100,
+                    700, 100,
+                    670, 50,
+                    100, 100
+                 ]
+            }
+        }
+    ],
+    "entities": [
+        {
+            "name": "abc",
+            "instance": {
+                "class": "com.github.eoinf.ethanolshared.GameObjects.Entity",
+                "textureName": "Mick",
+                "position": {
+                    "x": 300,
+                    "y": 100
+                },
+                "colour": {
+                    "r": 1,
+                    "g": 0.2,
+                    "b": 0.2,
+                    "a": 1
+                }
+                "ai": "NONE"
+            }
+        }
+    ]
+    "items": [
+        {
+            "name": "spawn",
+            "instance": {
+                "class": "com.github.eoinf.ethanolshared.GameObjects.Item",
+                "textureName": "Spawn",
+                "position": {
+                    "x": 500,
+                    "y": 300
+                }
+                "type": "PLAYER_SPAWN",
+            }
+        }
+    ]
+}
