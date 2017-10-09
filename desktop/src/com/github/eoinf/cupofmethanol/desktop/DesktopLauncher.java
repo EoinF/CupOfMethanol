@@ -7,6 +7,9 @@ import com.github.eoinf.cupofmethanol.CupOfMethanol;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "Cup Of Methanol";
+		config.width = 1280;
+		config.height = 720;
 		new LwjglApplication(new CupOfMethanol(), config);
 	}
 }
