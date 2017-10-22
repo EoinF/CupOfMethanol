@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = "Cup Of Methanol";
 		config.width = 1280;
 		config.height = 720;
+		config.fullscreen = false;
 		new LwjglApplication(new CupOfMethanol(), config);
 	}
 }

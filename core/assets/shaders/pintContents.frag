@@ -19,10 +19,10 @@ void main()
 
   float textureWidth = textureSize2d.x;
 
-  if (gl_FragCoord.x > (textureWidth / 5)) {
-    xFromCenter = 100;
+  if (gl_FragCoord.x > (textureWidth / 3)) {
+    xFromCenter = 512 - textureWidth;
   } else {
-    xFromCenter = (textureWidth - gl_FragCoord.x) / 10.0;
+    xFromCenter = 0; //(textureWidth - gl_FragCoord.x) / 10.0;
   }
   if (gl_FragCoord.y > (300 - xFromCenter)) {
     colour = vec4(0,0,0,0);
