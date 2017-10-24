@@ -11,7 +11,7 @@ public class ComputerPlayer implements Player {
     }
 
     private float getDrinkRate() {
-        return -Math.abs(pintGlass.rotation / 90);
+        return 0; // -Math.abs(pintGlass.rotation / 90);
     }
 
     public void update(float delta) {
@@ -24,5 +24,9 @@ public class ComputerPlayer implements Player {
 
     public boolean isFinished() {
         return pintGlass.amountRemaining <= 0;
+    }
+
+    public void setDowning(boolean isDowning) {
+        // Do nothing
     }
 }

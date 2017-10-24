@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 public class PintGlass {
 
@@ -27,6 +28,7 @@ public class PintGlass {
     public float amountRemaining;
     protected float rotation;
     protected boolean isFlipped;
+    private Vector2 position;
 
     private static final float HEAD_RATIO = 0.1f;
 
@@ -43,12 +45,13 @@ public class PintGlass {
         this.pintBase.setFlip(isFlipped, false);
         this.pintBase.setPosition(x, y);
 
+        float widthDiff = pintGlassTexture.getRegionWidth() - pintContentsTexture.getRegionWidth();
         float heightDiff = pintGlassTexture.getRegionHeight() - pintContentsTexture.getRegionHeight();
         this.pintContents = new Sprite(pintContentsTexture);
         this.pintContents.setFlip(isFlipped, false);
         this.pintContents.setPosition(x + offsetX, heightDiff);
 
-        this.pintContents.setOrigin(this.pintContents.getOriginX(),
+        this.pintContents.setOrigin(this.pintContents.getOriginX() + (widthDiff / 2),
                 this.pintContents.getOriginY() - (heightDiff / 2));
         this.pintContentsTexture = pintContentsTexture;
 
@@ -83,7 +86,9 @@ public class PintGlass {
         this.isFlipped = isFlipped;
 
         this.amountRemaining = 0;
-        this.rotation = 45;
+        this.rotation = 0;
+        this.position = new Vector2(x + pintGlassTexture.getRegionWidth() / 2,
+                y + pintBaseTexture.getRegionHeight() / 2);
     }
 
     void update(float delta) {
@@ -100,20 +105,35 @@ public class PintGlass {
         // The amount of head diminishes as the beer goes away
         float headAmount = HEAD_RATIO * pintContentsTexture.getRegionHeight() * amountRemaining;
 
+        int centreX = (int)pintContents.getOriginX();
+        int centreY = (int)pintContents.getOriginY();
+
+        double cos = Math.cos(Math.toRadians(rotation));
+        double sin = Math.sin(Math.toRadians(rotation));
+
+        Color pixelColourBuffer = new Color();
+
+        int regionX = pintContentsTexture.getRegionX();
+        int regionY = pintContentsTexture.getRegionY();
+
         contentsPixmap.setBlending(Pixmap.Blending.None);
-        for (int x = 0; x < contentsPixmap.getWidth(); x++) {
-            for (int y = 0; y < contentsPixmap.getHeight(); y++) {
-                Color pixelColour = new Color();
-                Color.rgba8888ToColor(pixelColour, contentsPixmap.getPixel(x, y));
+        for (int x = 0; x < pintContentsTexture.getRegionWidth(); x++) {
+            for (int y = 0; y < pintContentsTexture.getRegionHeight(); y++) {
+                // Find the pixel location within the pixmap as it is offset by the regionX, regionY values
+                int adjustedX = x + regionX;
+                int adjustedY = y + regionY;
+                Color.rgba8888ToColor(pixelColourBuffer, contentsPixmap.getPixel(adjustedX, adjustedY));
 
                 // Only handle pixels that aren't always transparent
-                if (!pixelColour.equals(CLEAR_BLACK)) {
-                    if (y < textureCutoff) {
-                        contentsPixmap.drawPixel(x, y, Color.rgba8888(Color.BLACK));
-                    } else if (y < textureCutoff + headAmount) {
-                        contentsPixmap.drawPixel(x, y, Color.rgba8888(headColour));
+                if (!pixelColourBuffer.equals(CLEAR_BLACK)) {
+                    Vector2 rotated = getRotatedPixels(x, y, sin, cos, centreX, centreY);
+
+                    if (rotated.y < textureCutoff) {
+                        contentsPixmap.drawPixel(adjustedX, adjustedY, Color.rgba8888(CLEAR_WHITE));
+                    } else if (rotated.y < textureCutoff + headAmount) {
+                        contentsPixmap.drawPixel(adjustedX, adjustedY, Color.rgba8888(headColour));
                     } else {
-                        contentsPixmap.drawPixel(x, y, Color.rgba8888(pintColour));
+                        contentsPixmap.drawPixel(adjustedX, adjustedY, Color.rgba8888(pintColour));
                     }
                 }
             }
@@ -135,5 +155,18 @@ public class PintGlass {
         pintBase.draw(batch);
         pintContents.draw(batch);
         pintGlass.draw(batch);
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    private Vector2 getRotatedPixels(int x, int y, double sin, double cos, int centreX, int centreY) {
+        // The origin must be at 0,0 when rotating, so we must adjust all coordinates
+        // so that the centre is at 0,0
+        float m = x - centreX;
+        float n = y - centreY;
+
+        return new Vector2((float)(m * cos - n * sin) + centreX, (float)(n * cos + m * sin) + centreY);
     }
 }

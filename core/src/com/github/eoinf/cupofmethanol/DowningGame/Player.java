@@ -6,4 +6,5 @@ public interface Player {
     void update(float delta);
     void render(Batch batch);
     boolean isFinished();
+    void setDowning(boolean isDowning);
 }

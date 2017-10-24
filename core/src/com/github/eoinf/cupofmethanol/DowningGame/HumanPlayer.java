@@ -1,8 +1,10 @@
 package com.github.eoinf.cupofmethanol.DowningGame;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 
-public class HumanPlayer implements Player{
+public class HumanPlayer implements Player {
 
     private PintGlass pintGlass;
 
@@ -10,8 +12,22 @@ public class HumanPlayer implements Player{
         this.pintGlass = pintGlass;
     }
 
-    public void update(float delta) {
+    private float getDrinkRate() {
+        return -Math.abs(pintGlass.rotation / 200f);
+    }
 
+    public void update(float delta) {
+        Vector2 pintPosition = pintGlass.getPosition();
+        int x = Gdx.input.getX();
+        int y = Gdx.input.getY();
+
+        float flipMultiplier = pintGlass.isFlipped ? 1 : -1;
+        float diff = flipMultiplier * (pintPosition.x - x);
+        Gdx.input.setCursorPosition((int)pintPosition.x, (int)pintPosition.y);
+
+        pintGlass.rotation = pintGlass.rotation + diff * delta;
+
+        pintGlass.update(delta * getDrinkRate());
     }
 
     public void render(Batch batch) {
@@ -20,5 +36,15 @@ public class HumanPlayer implements Player{
 
     public boolean isFinished() {
         return pintGlass.amountRemaining <= 0;
+    }
+
+    public void setDowning(boolean isDowning) {
+        if (isDowning) {
+            Gdx.input.setCursorCatched(true);
+            Vector2 pintPosition = pintGlass.getPosition();
+            Gdx.input.setCursorPosition((int)pintPosition.x, (int)pintPosition.y);
+        } else {
+            Gdx.input.setCursorCatched(false);
+        }
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.github.eoinf.cupofmethanol.CupOfMethanol;
 
 /**
@@ -25,7 +26,7 @@ public class DowningGameScreen implements Screen {
     private Player rightPlayer;
 
 
-    private static final float FILL_RATE = 0.15f;
+    private static final float FILL_RATE = 0.7f;
 
     private TextureRegion getTextureByName(String name) {
         return game.config.atlas.findRegion(TEXTURE_PREFIX + name);
@@ -36,7 +37,6 @@ public class DowningGameScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.SCREEN_WIDTH, game.SCREEN_HEIGHT);
-        setState(DowningGameState.STARTING);
 
         //
         // Initialize STARTING state UI
@@ -71,8 +71,8 @@ public class DowningGameScreen implements Screen {
         //
         // Initialize DOWNING state UI
         //
-        leftPlayer = new HumanPlayer(leftPint);
-        rightPlayer = new ComputerPlayer(rightPint);
+        leftPlayer = new ComputerPlayer(leftPint);
+        rightPlayer = new HumanPlayer(rightPint);
 
         //
         // Initialize VICTORY state UI
@@ -81,9 +81,17 @@ public class DowningGameScreen implements Screen {
         //
         // Initialize DEFEAT state UI
         //
+
+
+
+        setState(DowningGameState.STARTING);
     }
 
     private void setState(DowningGameState nextState) {
+        leftPlayer.setDowning(nextState == DowningGameState.DOWNING);
+        rightPlayer.setDowning(nextState == DowningGameState.DOWNING);
+
+
         this.state = nextState;
     }
 
