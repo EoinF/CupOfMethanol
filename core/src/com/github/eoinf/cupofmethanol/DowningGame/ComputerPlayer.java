@@ -15,7 +15,7 @@ public class ComputerPlayer implements Player {
     }
 
     public void update(float delta) {
-        pintGlass.update(delta * getDrinkRate());
+        //pintGlass.update(delta * getDrinkRate());
     }
 
     public void render(Batch batch) {
@@ -23,7 +23,7 @@ public class ComputerPlayer implements Player {
     }
 
     public boolean isFinished() {
-        return pintGlass.amountRemaining <= 0;
+        return pintGlass.getAmountRemaining() <= 0;
     }
 
     public void setDowning(boolean isDowning) {

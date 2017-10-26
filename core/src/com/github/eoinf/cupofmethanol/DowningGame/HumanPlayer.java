@@ -13,7 +13,7 @@ public class HumanPlayer implements Player {
     }
 
     private float getDrinkRate() {
-        return -Math.abs(pintGlass.rotation / 200f);
+        return 0; //-Math.abs(pintGlass.rotation / 200f);
     }
 
     public void update(float delta) {
@@ -35,7 +35,7 @@ public class HumanPlayer implements Player {
     }
 
     public boolean isFinished() {
-        return pintGlass.amountRemaining <= 0;
+        return pintGlass.getAmountRemaining() <= 0;
     }
 
     public void setDowning(boolean isDowning) {

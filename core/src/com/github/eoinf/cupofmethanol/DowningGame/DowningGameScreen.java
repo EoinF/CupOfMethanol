@@ -47,7 +47,9 @@ public class DowningGameScreen implements Screen {
         TextureRegion pintBaseLeft = getTextureByName("PintBase");
         TextureRegion pintContentsLeft = getTextureByName("PintContents");
 
-        leftPint = new PintGlass(0, 0,
+        final Vector2 GLASS_POSITION_OFFSET = new Vector2(80, 50);
+
+        leftPint = new PintGlass(GLASS_POSITION_OFFSET.x, GLASS_POSITION_OFFSET.y,
                 pintGlassLeft,
                 pintBaseLeft,
                 pintContentsLeft,
@@ -60,7 +62,8 @@ public class DowningGameScreen implements Screen {
         TextureRegion pintBaseRight = getTextureByName("PintBase");
         TextureRegion pintContentsRight = getTextureByName("PintContents");
 
-        rightPint = new PintGlass(game.SCREEN_WIDTH - pintGlassRight.getRegionWidth(), 0,
+        rightPint = new PintGlass(-GLASS_POSITION_OFFSET.x + game.SCREEN_WIDTH - pintGlassRight.getRegionWidth(),
+                GLASS_POSITION_OFFSET.y,
                 pintGlassRight,
                 pintBaseRight,
                 pintContentsRight,
@@ -124,7 +127,7 @@ public class DowningGameScreen implements Screen {
         leftPint.update(delta * FILL_RATE);
         rightPint.update(delta * FILL_RATE);
 
-        if (leftPint.amountRemaining >= 1) {
+        if (leftPint.getAmountRemaining() >= 0.5f) {
             setState(DowningGameState.DOWNING);
         }
 

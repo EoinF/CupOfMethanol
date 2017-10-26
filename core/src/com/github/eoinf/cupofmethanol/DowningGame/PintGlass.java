@@ -25,7 +25,19 @@ public class PintGlass {
     private Pixmap contentsPixmap;
     private Texture pintContentsTemp;
 
-    public float amountRemaining;
+    private float amountRemaining;
+    // The area taken up by the amount remaining
+    private float contentsArea;
+    public void setAmountRemaining(float value) {
+        this.amountRemaining = value;
+        this.contentsArea = this.pintContentsTexture.getRegionWidth() *
+                this.pintContentsTexture.getRegionHeight() * amountRemaining;
+    }
+
+    public float getAmountRemaining() {
+        return this.amountRemaining;
+    }
+
     protected float rotation;
     protected boolean isFlipped;
     private Vector2 position;
@@ -49,7 +61,7 @@ public class PintGlass {
         float heightDiff = pintGlassTexture.getRegionHeight() - pintContentsTexture.getRegionHeight();
         this.pintContents = new Sprite(pintContentsTexture);
         this.pintContents.setFlip(isFlipped, false);
-        this.pintContents.setPosition(x + offsetX, heightDiff);
+        this.pintContents.setPosition(x + offsetX, y + heightDiff);
 
         this.pintContents.setOrigin(this.pintContents.getOriginX() + (widthDiff / 2),
                 this.pintContents.getOriginY() - (heightDiff / 2));
@@ -85,33 +97,50 @@ public class PintGlass {
 
         this.isFlipped = isFlipped;
 
-        this.amountRemaining = 0;
+        setAmountRemaining(0.5f);
         this.rotation = 0;
         this.position = new Vector2(x + pintGlassTexture.getRegionWidth() / 2,
                 y + pintBaseTexture.getRegionHeight() / 2);
     }
 
     void update(float delta) {
-        amountRemaining += delta;
-        amountRemaining = Math.min(1, amountRemaining);
-        amountRemaining = Math.max(0, amountRemaining);
+        float newAmount = Math.max(0, Math.min(1, amountRemaining + delta));
+        setAmountRemaining(newAmount);
 
         updateTextures();
     }
 
     private void updateTextures() {
-        float textureCutoff = pintContentsTexture.getRegionHeight() * (1 - amountRemaining);
-
-        // The amount of head diminishes as the beer goes away
-        float headAmount = HEAD_RATIO * pintContentsTexture.getRegionHeight() * amountRemaining;
-
         int centreX = (int)pintContents.getOriginX();
         int centreY = (int)pintContents.getOriginY();
 
         double cos = Math.cos(Math.toRadians(rotation));
         double sin = Math.sin(Math.toRadians(rotation));
+        double tan = Math.tan(Math.toRadians(rotation));
+
+        // Need to rotate in the opposite direction when calculating cutoff
+        // because pixmap coordinates are y up, whereas screen and image coordinates are y down
+        double cosReverse = Math.cos(Math.toRadians(-rotation));
+        double sinReverse = Math.sin(Math.toRadians(-rotation));
+
+        int width = pintContentsTexture.getRegionWidth();
+        int height = pintContentsTexture.getRegionHeight();
 
         Color pixelColourBuffer = new Color();
+
+        // First, calculate where the top left of the pint glass will start after rotating
+        Vector2 topLeftRotated = getRotatedPixels(0, height, sinReverse, cosReverse, centreX, centreY);
+        float heightDiff = height - topLeftRotated.y;
+
+        // The height taken up by the upper section of liquid in the glass
+        double heightInGlass = (
+                2 * amountRemaining * width * height  - (width * width * tan)
+        ) * cos / (2 * width);
+
+        float textureCutoff = heightDiff + (float)(height * cos - heightInGlass);
+
+        // The amount of head diminishes as the beer goes away
+        float headAmount = HEAD_RATIO * pintContentsTexture.getRegionHeight() * amountRemaining;
 
         int regionX = pintContentsTexture.getRegionX();
         int regionY = pintContentsTexture.getRegionY();
