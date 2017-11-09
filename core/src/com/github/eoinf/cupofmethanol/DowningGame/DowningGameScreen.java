@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.github.eoinf.cupofmethanol.CupOfMethanol;
 
+import static com.github.eoinf.cupofmethanol.DebugTool.setProjectionMatrix;
+
 /**
  * The screen for the entire downing mini-game
  */
@@ -37,6 +39,8 @@ public class DowningGameScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.SCREEN_WIDTH, game.SCREEN_HEIGHT);
+
+        setProjectionMatrix(camera.combined);
 
         //
         // Initialize STARTING state UI
@@ -87,7 +91,7 @@ public class DowningGameScreen implements Screen {
 
 
 
-        setState(DowningGameState.STARTING);
+        setState(DowningGameState.DOWNING);
     }
 
     private void setState(DowningGameState nextState) {

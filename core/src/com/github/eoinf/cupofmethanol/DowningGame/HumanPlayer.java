@@ -13,7 +13,7 @@ public class HumanPlayer implements Player {
     }
 
     private float getDrinkRate() {
-        return 0; //-Math.abs(pintGlass.rotation / 200f);
+        return 0;// Math.min(0, (pintGlass.getGlassHeight() - pintGlass.getDrinkHeight()) / 200);
     }
 
     public void update(float delta) {
@@ -25,7 +25,9 @@ public class HumanPlayer implements Player {
         float diff = flipMultiplier * (pintPosition.x - x);
         Gdx.input.setCursorPosition((int)pintPosition.x, (int)pintPosition.y);
 
-        pintGlass.rotation = pintGlass.rotation + diff * delta;
+        float newRotation = pintGlass.rotation + diff * delta;
+        newRotation = Math.min(Math.max(0, newRotation), 90);
+        pintGlass.rotation = newRotation;
 
         pintGlass.update(delta * getDrinkRate());
     }
@@ -35,7 +37,7 @@ public class HumanPlayer implements Player {
     }
 
     public boolean isFinished() {
-        return pintGlass.getAmountRemaining() <= 0;
+        return false; //pintGlass.getAmountRemaining() <= 0;
     }
 
     public void setDowning(boolean isDowning) {

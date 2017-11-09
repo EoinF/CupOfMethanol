@@ -23,7 +23,7 @@ public class ComputerPlayer implements Player {
     }
 
     public boolean isFinished() {
-        return pintGlass.getAmountRemaining() <= 0;
+        return false;//pintGlass.getAmountRemaining() <= 0;
     }
 
     public void setDowning(boolean isDowning) {
