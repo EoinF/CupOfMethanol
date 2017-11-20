@@ -1,0 +1,142 @@
+{
+  "actors": {
+    "MickGlasses1": {
+      "bg": "#575",
+      "avatar": "mick_glasses1",
+      "avatarLocation": "Right",
+      "name": "???"
+    },
+    "MickGlasses2": {
+      "bg": "#575",
+      "avatar": "mick_glasses2",
+      "avatarLocation": "Right",
+      "name": "???"
+    },
+    "Mick1": {
+      "bg": "#5f5",
+      "avatar": "mick1",
+      "avatarLocation": "Right",
+      "name": "Mick"
+    },
+    "Thug1": {
+      "bg": "#f33",
+      "avatar": "thug1",
+      "avatarLocation": "Left",
+      "name": "Johnny"
+    },
+    "Thug1_scared": {
+      "bg": "#f33",
+      "avatar": "thug1_scared",
+      "avatarLocation": "Left",
+      "name": "Johnny"
+    },
+    "Thug2": {
+      "bg": "#c25",
+      "avatar": "thug2",
+      "avatarLocation": "Left",
+      "name": "Jimmy"
+    },
+    "Thug2_awe": {
+      "bg": "#c25",
+      "avatar": "thug2_awe",
+      "avatarLocation": "Left",
+      "name": "Jimmy"
+    }
+  },
+  "names": {
+    "???": [
+      "mick_glasses1", "mick_glasses2"
+    ],
+    "Mick": [
+      "Mick1"
+    ],
+    "Johnny": [
+      "Thug1", "Thug1_Laughing", "Thug1_scared"
+    ],
+    "Jimmy": [
+      "Thug2", "Thug2_awe"
+    ]
+  },
+  "actions": [
+    {
+      "message": "I'll have a pint of guinness there, good lad.",
+      "actor": "MickGlasses1"
+    },
+    {
+      "message": "You're a long way from home aren't ya lad?",
+      "actor": "Thug1"
+    },
+    {
+      "message": "No Guinness in these parts anymore.",
+      "actor": "Thug1"
+    },
+    {
+      "message": "Oh? Why's that now? Can't handle a real pint around here?",
+      "actor": "MickGlasses1"
+    },
+    {
+      "message": "Watch yourself lad. I'd say you wouldn't be able for a pint by the looks of ya.",
+      "actor": "Thug1"
+    },
+    {
+      "message": "I reckon I'd drink ya under the table. I'd put money on that now.",
+      "actor": "MickGlasses1"
+    },
+    {
+      "message": "Alright, let me show ya how it's done young fella.",
+      "actor": "Thug1_laughing"
+    },
+    {
+      "message": "Five pints each, whoever downs all five first wins. And loser pays for them.",
+      "actor": "Thug1"
+    },
+    {
+      "message": "Do we have a deal now young fella?",
+      "actor": "Thug1"
+    },
+    {
+      "message": "Ah, leave the innocent lad alone would ya?",
+      "actor": "Thug2"
+    },
+    {
+      "message": "Alright, deal. You'll be sorry in a minute now.",
+      "actor": "MickGlasses2"
+    },
+    {
+      "message": "Just let me get the aul glasses off first...",
+      "actor": "MickGlasses2"
+    },
+    {
+      "message": "...",
+      "actor": "Mick1"
+    },
+    {
+      "message": "W-wait...",
+      "actor": "Thug1_scared"
+    },
+    {
+      "message": "It can't be...",
+      "actor": "Thug1_scared"
+    },
+    {
+      "message": "It is... Señor Mick...",
+      "actor": "Thug2_awe"
+    },
+    {
+      "message": "10 pints there.",
+      "actor": "Mick1"
+    },
+    {
+      "message": "Ya had me fooled for a second there young fella.",
+      "actor": "Thug1"
+    },
+    {
+      "message": "No chance that the great El Mick would be out in the arse end of nowhere for drinks.",
+      "actor": "Thug1"
+    },
+    {
+      "message": "Enough of your shite talk. I'll show you what it really means to down a pint...",
+      "actor": "Mick1"
+    }
+  ]
+}

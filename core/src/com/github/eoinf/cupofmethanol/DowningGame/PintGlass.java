@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.github.eoinf.cupofmethanol.DebugTool;
+import com.github.eoinf.ethanolshared.GameObjects.utils;
 
 public class PintGlass {
 
@@ -17,6 +18,8 @@ public class PintGlass {
     private Color headColour;
     private Sprite pintContents;
     private TextureRegion pintContentsTexture;
+
+    public static final float DRINK_HEIGHT_RATIO = 0.004f;
 
     private static Color CLEAR_WHITE = new Color(1, 1, 1, 0);
     private static Color CLEAR_BLACK = new Color(0, 0, 0, 0);
@@ -35,7 +38,7 @@ public class PintGlass {
         return this.amountRemaining;
     }
 
-    protected float rotation;
+    private float rotation;
     protected boolean isFlipped;
     private Vector2 position;
     private float drinkHeight;
@@ -68,7 +71,7 @@ public class PintGlass {
         this.pintContents.setFlip(isFlipped, false);
         this.pintContents.setPosition(x + offsetX, y + heightDiff);
 
-        this.pintContents.setOrigin(this.pintContents.getOriginX() + (widthDiff / 2),
+        this.pintContents.setOrigin(this.pintContents.getOriginX() + (widthDiff / 2) - offsetX,
                 this.pintContents.getOriginY() - (heightDiff / 2));
         this.pintContentsTexture = pintContentsTexture;
 
@@ -102,7 +105,7 @@ public class PintGlass {
 
         this.isFlipped = isFlipped;
 
-        setAmountRemaining(0.8f);
+        setAmountRemaining(1);
         this.rotation = 0;
         this.drinkHeight = 0;
         this.position = new Vector2(x + pintGlassTexture.getRegionWidth() / 2,
@@ -114,6 +117,12 @@ public class PintGlass {
         setAmountRemaining(newAmount);
 
         updateTextures();
+    }
+
+    void rotate(float force) {
+        float newRotation = rotation + force;
+        newRotation = Math.min(Math.max(0, newRotation), 90);
+        rotation = newRotation;
     }
 
     private void updateTextures() {
@@ -371,12 +380,12 @@ public class PintGlass {
     private CalculationResult calculateHeightInGlassUpper(double width, double height, double sin, double cos, double tan,
                                                    double volumeAvailable) {
         double heightInGlassUpper = width * sin -
-                Math.sqrt(width * width * sin * sin
-                        - 2 * volumeAvailable * sin * cos);
+                Math.sqrt(Math.abs(width * width * sin * sin
+                        - 2 * volumeAvailable * sin * cos));
 
         heightInGlassUpper = Math.max(0, heightInGlassUpper);
 
-        float spillover = (float)(heightInGlassUpper / sin);
+        float spillover = sin == 0 ? 0 : (float)(heightInGlassUpper / sin);
 
         return new CalculationResult(volumeAvailable, heightInGlassUpper, spillover);
     }

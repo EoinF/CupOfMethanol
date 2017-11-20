@@ -79,7 +79,7 @@ public class DowningGameScreen implements Screen {
         // Initialize DOWNING state UI
         //
         leftPlayer = new ComputerPlayer(leftPint);
-        rightPlayer = new HumanPlayer(rightPint);
+        rightPlayer = new ComputerPlayer(rightPint);
 
         //
         // Initialize VICTORY state UI
@@ -123,6 +123,12 @@ public class DowningGameScreen implements Screen {
             case DOWNING:
                 renderDowning(delta);
                 break;
+            case VICTORY:
+                renderVictory(delta);
+                break;
+            case DEFEAT:
+                renderDefeat(delta);
+                break;
         }
         game.batch.end();
     }
@@ -144,13 +150,21 @@ public class DowningGameScreen implements Screen {
         rightPlayer.update(delta);
 
         if (leftPlayer.isFinished()) {
-            setState(DowningGameState.VICTORY);
-        } else if (rightPlayer.isFinished()) {
             setState(DowningGameState.DEFEAT);
+        } else if (rightPlayer.isFinished()) {
+            setState(DowningGameState.VICTORY);
         }
 
         leftPlayer.render(game.batch);
         rightPlayer.render(game.batch);
+    }
+
+    private void renderVictory(float delta) {
+        rightPlayer.render(game.batch);
+    }
+
+    private void renderDefeat(float delta) {
+        leftPlayer.render(game.batch);
     }
 
     @Override
